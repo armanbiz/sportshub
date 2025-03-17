@@ -56,13 +56,13 @@ export default function HeroSection() {
       
       <div className="relative max-w-7xl mx-auto text-center">
         <AnimatedSection>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-6">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 px-4">
             Find Your Perfect Gym in Prague
           </h1>
         </AnimatedSection>
         
         <AnimatedSection>
-          <p className="text-xl sm:text-2xl text-gray-300 max-w-3xl mx-auto mb-12">
+          <p className="text-lg sm:text-2xl text-gray-300 max-w-3xl mx-auto mb-8 sm:mb-12 px-4">
             Compare prices, ratings, and amenities at 100+ fitness centers near you.
           </p>
         </AnimatedSection>
@@ -75,10 +75,10 @@ export default function HeroSection() {
           />
         </AnimatedSection>
         
-        <AnimatedSection className="mt-8 flex flex-wrap justify-center gap-4">
+        <AnimatedSection className="mt-8 flex flex-wrap justify-center gap-3 px-4">
           <Button
             variant="outline"
-            className="bg-white/10 hover:bg-white/20 text-white border-white/20"
+            className="bg-white/10 hover:bg-white/20 text-white border-white/20 text-sm sm:text-base w-full sm:w-auto mb-2 sm:mb-0"
             onClick={() => setFilters({ ...filters, priceRange: 'budget' })}
           >
             Budget Friendly

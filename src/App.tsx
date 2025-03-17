@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import HeroSection from './components/HeroSection';
-import HowItWorks from './components/HowItWorks';
-import FeaturedGyms from './components/FeaturedGyms';
-import LocalGyms from './components/LocalGyms';
-import Testimonials from './components/Testimonials';
-import Newsletter from './components/Newsletter';
+import HomePage from './pages/HomePage';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
+import FaqPage from './pages/FaqPage';
 
 export default function App() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -31,12 +30,12 @@ export default function App() {
       />
       <Header />
       <main className="relative">
-        <HeroSection />
-        <HowItWorks />
-        <FeaturedGyms />
-        <LocalGyms />
-        <Testimonials />
-        <Newsletter />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/faq" element={<FaqPage />} />
+        </Routes>
       </main>
       <Footer />
     </div>

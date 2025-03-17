@@ -11,8 +11,8 @@ interface SearchBarProps {
 
 export default function SearchBar({ filters, setFilters, onSearch }: SearchBarProps) {
   return (
-    <div className="max-w-4xl mx-auto px-4">
-      <div className="flex flex-col md:flex-row gap-3 bg-white/10 backdrop-blur-lg p-3 rounded-xl border border-neon-green/20 relative overflow-hidden">
+    <div className="max-w-4xl mx-auto px-4 w-full">
+      <div className="flex flex-col md:flex-row gap-3 bg-white/10 backdrop-blur-lg p-3 rounded-xl border border-neon-green/20 relative overflow-hidden w-full">
         <div className="absolute inset-0">
           <MovingBorder duration={4000} rx="12px" ry="12px">
             <div className="h-32 w-32 opacity-[0.8] bg-[radial-gradient(var(--tw-gradient-stops))] from-neon-green via-neon-green/30 to-transparent blur-md" />
@@ -44,7 +44,7 @@ export default function SearchBar({ filters, setFilters, onSearch }: SearchBarPr
         </div>
         <MovingButton
           borderRadius="0.5rem"
-          containerClassName="w-[120px] h-12"
+          containerClassName="w-full md:w-[120px] h-12"
           className="bg-neon-green hover:bg-neon-green/90 text-white/90 h-full px-4"
           onClick={onSearch}
         >

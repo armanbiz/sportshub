@@ -30,30 +30,30 @@ export default function Testimonials() {
   return (
     <section className="py-24 bg-dark-lighter relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
           <AnimatedSection>
-            <h2 className="text-4xl font-bold text-white mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-8 sm:mb-12">
               What Our Users Say
             </h2>
             
-            <div className="space-y-8">
+            <div className="space-y-6 sm:space-y-8">
               {TESTIMONIALS.map((review) => (
                 <AnimatedSection
                   key={review.id}
-                  className="bg-dark rounded-xl p-6 border border-white/10"
+                  className="bg-dark rounded-xl p-4 sm:p-6 border border-white/10"
                 >
                   <div className="flex items-center mb-4">
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`h-5 w-5 ${
+                        className={`h-4 w-4 sm:h-5 sm:w-5 ${
                           i < review.rating ? 'text-yellow-400' : 'text-gray-600'
                         }`}
                       />
                     ))}
                   </div>
-                  <p className="text-gray-300 mb-4">{review.content}</p>
-                  <div className="text-sm text-gray-400">
+                  <p className="text-gray-300 mb-4 text-sm sm:text-base">{review.content}</p>
+                  <div className="text-xs sm:text-sm text-gray-400">
                     {review.author}, {review.location}
                   </div>
                 </AnimatedSection>
@@ -61,18 +61,18 @@ export default function Testimonials() {
             </div>
           </AnimatedSection>
           
-          <AnimatedSection className="bg-dark rounded-2xl p-8 border border-white/10">
-            <h3 className="text-2xl font-bold text-white mb-8">
+          <AnimatedSection className="bg-dark rounded-2xl p-6 sm:p-8 border border-white/10">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-6 sm:mb-8">
               SportsHub in Numbers
             </h3>
             
             <div className="grid grid-cols-1 gap-8">
               {STATS.map((stat) => (
                 <div key={stat.label} className="text-center">
-                  <div className="text-4xl font-bold text-neon-green mb-2">
+                  <div className="text-3xl sm:text-4xl font-bold text-neon-green mb-2">
                     {stat.value}
                   </div>
-                  <div className="text-gray-400">{stat.label}</div>
+                  <div className="text-gray-400 text-sm sm:text-base">{stat.label}</div>
                 </div>
               ))}
             </div>

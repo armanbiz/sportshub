@@ -53,12 +53,13 @@ export const MovingBorder = ({
         className="absolute h-full w-full"
         width="100%"
         height="100%"
+        viewBox="0 0 100 100"
         {...otherProps}
       >
-        <rect
-          width="100%"
-          height="100%"
+        <path
+          d="M 0,0 L 100,0 L 100,100 L 0,100 Z"
           fill="none"
+          vectorEffect="non-scaling-stroke"
           rx={rx}
           ry={ry}
           ref={pathRef}

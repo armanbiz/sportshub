@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Menu, X, LogIn, UserPlus } from 'lucide-react';
-import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Button as MovingButton } from '@/components/ui/moving-border';
 
 export default function Header() {
@@ -21,23 +21,28 @@ export default function Header() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex-shrink-0 flex items-center">
-            <img src="/SportsHub_Logo.png" alt="SportsHub" className="h-8 w-auto" />
-            <span className="ml-2 text-xl font-bold text-white">SportsHub</span>
+            <Link to="/" className="flex items-center">
+              <img src="/SportsHub_Logo.png" alt="SportsHub" className="h-8 w-auto" />
+              <span className="ml-2 text-xl font-bold text-white">SportsHub</span>
+            </Link>
           </div>
           <div className="hidden sm:flex sm:items-center sm:space-x-8">
             <div className="flex space-x-6">
-              <a href="/search" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">
+              <Link to="/search" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">
                 Search
-              </a>
-              <a href="/about" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">
+              </Link>
+              <Link to="/about" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">
                 About
-              </a>
-              <a href="/blog" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">
+              </Link>
+              <Link to="/blog" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">
                 Blog
-              </a>
-              <a href="/contact" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">
-                Contact
-              </a>
+              </Link>
+              <Link to="/contact" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">
+                Contact Us
+              </Link>
+              <Link to="/faq" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">
+                FAQ
+              </Link>
             </div>
             <div className="relative">
               <MovingButton
@@ -96,9 +101,12 @@ export default function Header() {
             <a href="/blog" className="block pl-3 pr-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-dark">
               Blog
             </a>
-            <a href="/contact" className="block pl-3 pr-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-dark">
-              Contact
-            </a>
+            <Link to="/contact" className="block pl-3 pr-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-dark">
+              Contact Us
+            </Link>
+            <Link to="/faq" className="block pl-3 pr-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-dark">
+              FAQ
+            </Link>
             <div className="px-3 py-2">
               <MovingButton
                 borderRadius="0.5rem"

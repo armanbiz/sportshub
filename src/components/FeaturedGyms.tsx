@@ -34,23 +34,23 @@ const FEATURED_GYMS: Gym[] = [
 export default function FeaturedGyms() {
   return (
     <section className="py-24 bg-dark-lighter relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-16">
         <AnimatedSection>
-          <h2 className="text-4xl font-bold text-center text-white mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-center text-white mb-4">
             Trending Gyms in Prague
           </h2>
-          <p className="text-xl text-gray-400 text-center mb-16 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-gray-400 text-center mb-8 sm:mb-16 max-w-2xl mx-auto">
             Discover the most popular fitness facilities loved by our community
           </p>
         </AnimatedSection>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
           {FEATURED_GYMS.map((gym) => (
             <AnimatedSection
               key={gym.id}
               className="bg-dark rounded-2xl overflow-hidden border border-white/10 group hover:border-neon-green/40 transition-all duration-300"
             >
-              <div className="relative h-64">
+              <div className="relative h-48 sm:h-64">
                 <img
                   src={gym.imageUrl}
                   alt={gym.name}

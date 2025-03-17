@@ -6,20 +6,20 @@ export default function Newsletter() {
   return (
     <section className="py-24 bg-dark relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <AnimatedSection className="relative rounded-2xl bg-gradient-to-r from-neon-green/20 to-transparent p-8 md:p-12 overflow-hidden">
+        <AnimatedSection className="relative rounded-2xl bg-gradient-to-r from-neon-green/20 to-transparent p-6 sm:p-8 md:p-12 overflow-hidden">
           <div className="relative z-10 max-w-2xl">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
               Get Weekly Updates on New Gyms & Exclusive Deals
             </h2>
-            <p className="text-gray-300 mb-8">
+            <p className="text-gray-300 mb-6 sm:mb-8 text-sm sm:text-base">
               Subscribe to our newsletter and receive a free copy of our "Ultimate Guide to Prague Gyms 2024"
             </p>
             
-            <form className="flex flex-col sm:flex-row gap-4">
+            <form className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 px-4 py-3 bg-white/10 rounded-xl text-white placeholder-gray-400 border border-white/20 focus:outline-none focus:border-neon-green/40"
+                className="flex-1 px-4 py-3 bg-white/10 rounded-xl text-white placeholder-gray-400 border border-white/20 focus:outline-none focus:border-neon-green/40 text-sm sm:text-base"
               />
               <Button
                 type="submit"
