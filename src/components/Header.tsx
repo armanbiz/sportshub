@@ -21,7 +21,7 @@ export default function Header() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex-shrink-0 flex items-center">
-            <Link to="/" className="flex items-center">
+            <Link to="/" className="flex items-center" onClick={() => window.scrollTo(0, 0)}>
               <img src="/SportsHub_Logo.png" alt="SportsHub" className="h-8 w-auto" />
               <span className="ml-2 text-xl font-bold text-white">SportsHub</span>
             </Link>
@@ -31,16 +31,16 @@ export default function Header() {
               <Link to="/search" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">
                 Search
               </Link>
-              <Link to="/about" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">
-                About
-              </Link>
-              <Link to="/blog" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">
+              <Link to="/blog" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium" onClick={() => window.scrollTo(0, 0)}>
                 Blog
               </Link>
-              <Link to="/contact" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">
+              <Link to="/about" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium" onClick={() => window.scrollTo(0, 0)}>
+                About Us
+              </Link>
+              <Link to="/contact" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium" onClick={() => window.scrollTo(0, 0)}>
                 Contact Us
               </Link>
-              <Link to="/faq" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium">
+              <Link to="/faq" className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium" onClick={() => window.scrollTo(0, 0)}>
                 FAQ
               </Link>
             </div>
@@ -92,19 +92,19 @@ export default function Header() {
       {isMenuOpen && (
         <div className="sm:hidden">
           <div className="pt-2 pb-3 space-y-1 bg-dark-card">
-            <a href="/search" className="block pl-3 pr-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-dark">
+            <Link to="/search" className="block pl-3 pr-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-dark" onClick={() => window.scrollTo(0, 0)}>
               Search
-            </a>
-            <a href="/about" className="block pl-3 pr-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-dark">
-              About
-            </a>
-            <a href="/blog" className="block pl-3 pr-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-dark">
+            </Link>
+            <Link to="/blog" className="block pl-3 pr-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-dark" onClick={() => window.scrollTo(0, 0)}>
               Blog
-            </a>
-            <Link to="/contact" className="block pl-3 pr-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-dark">
+            </Link>
+            <Link to="/about" className="block pl-3 pr-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-dark" onClick={() => window.scrollTo(0, 0)}>
+              About Us
+            </Link>
+            <Link to="/contact" className="block pl-3 pr-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-dark" onClick={() => window.scrollTo(0, 0)}>
               Contact Us
             </Link>
-            <Link to="/faq" className="block pl-3 pr-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-dark">
+            <Link to="/faq" className="block pl-3 pr-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-dark" onClick={() => window.scrollTo(0, 0)}>
               FAQ
             </Link>
             <div className="px-3 py-2">

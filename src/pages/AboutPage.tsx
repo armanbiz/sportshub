@@ -80,10 +80,38 @@ export default function AboutPage() {
             <p className="text-gray-300 mb-6 text-center">
               Subscribe to our newsletter for exclusive deals, new gym listings, and expert fitness tips.
             </p>
-            <form className="max-w-md mx-auto">
+            <form 
+              className="max-w-md mx-auto"
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const email = (e.target as HTMLFormElement).email.value;
+                const timestamp = new Date().toISOString();
+                
+                try {
+                  const response = await fetch('https://hook.eu2.make.com/ek6thb6m50uqodzgx8fp0holw7s79ahi', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, timestamp }),
+                  });
+                  
+                  if (response.ok) {
+                    alert('Thank you for subscribing!');
+                    (e.target as HTMLFormElement).reset();
+                  } else {
+                    throw new Error('Subscription failed');
+                  }
+                } catch (error) {
+                  alert('Sorry, there was an error. Please try again later.');
+                }
+              }}
+            >
               <div className="flex flex-col sm:flex-row gap-3">
                 <input
                   type="email"
+                  name="email"
+                  required
                   placeholder="Enter your email"
                   className="flex-1 px-4 py-3 bg-white/10 rounded-xl text-white placeholder-gray-400 border border-white/20 focus:outline-none focus:border-neon-green/40"
                 />

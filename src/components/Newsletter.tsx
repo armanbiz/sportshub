@@ -2,7 +2,32 @@ import React from 'react';
 import { Button } from './ui/button';
 import AnimatedSection from './AnimatedSection';
 
-export default function Newsletter() {
+export default function Newsletter() {  
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const email = (e.target as HTMLFormElement).email.value;
+    const timestamp = new Date().toISOString();
+    
+    try {
+      const response = await fetch('https://hook.eu2.make.com/ek6thb6m50uqodzgx8fp0holw7s79ahi', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, timestamp }),
+      });
+      
+      if (response.ok) {
+        alert('Thank you for subscribing!');
+        (e.target as HTMLFormElement).reset();
+      } else {
+        throw new Error('Subscription failed');
+      }
+    } catch (error) {
+      alert('Sorry, there was an error. Please try again later.');
+    }
+  };
+
   return (
     <section className="py-24 bg-dark relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -15,9 +40,11 @@ export default function Newsletter() {
               Subscribe to our newsletter and receive a free copy of our "Ultimate Guide to Prague Gyms 2024"
             </p>
             
-            <form className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <input
                 type="email"
+                name="email"
+                required
                 placeholder="Enter your email"
                 className="flex-1 px-4 py-3 bg-white/10 rounded-xl text-white placeholder-gray-400 border border-white/20 focus:outline-none focus:border-neon-green/40 text-sm sm:text-base"
               />

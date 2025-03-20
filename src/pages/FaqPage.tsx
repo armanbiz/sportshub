@@ -48,7 +48,7 @@ export default function FaqPage() {
           ))}
         </div>
 
-        <AnimatedSection className="text-center mt-16 mb-16">
+        <AnimatedSection className="text-center mt-16 mb-32">
           <p className="text-xl text-gray-300 mb-6">
             Still have questions? We're here to help!
           </p>
