@@ -6,6 +6,9 @@ import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import FaqPage from './pages/FaqPage';
+import BlogPage from './pages/BlogPage';
+import SearchPage from './pages/SearchPage';
+import BlogArticlePage from './pages/BlogArticlePage';
 
 export default function App() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -32,9 +35,12 @@ export default function App() {
       <main className="relative">
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/search" element={<SearchPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/faq" element={<FaqPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:slug" element={<BlogArticlePage />} />
         </Routes>
       </main>
       <Footer />

@@ -33,7 +33,7 @@ export default function GymCard({ gym }: GymCardProps) {
         </div>
         <div className="mt-4 flex items-center justify-between">
           <span className="text-indigo-600 font-medium">{gym.priceRange}</span>
-          <button className="px-4 py-2 bg-white text-gray-800 rounded-md hover:bg-gray-100 border border-gray-200 shadow-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+          <button className="px-4 py-2 bg-[#064E41] text-white rounded-md hover:bg-[#064E41]/90 border border-[#064E41]/20 shadow-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#064E41]">
             View Details
           </button>
         </div>

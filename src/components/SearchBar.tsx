@@ -1,5 +1,6 @@
 import React from 'react';
 import { Search, MapPin, Filter } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Button as MovingButton, MovingBorder } from './ui/moving-border';
 import { SearchFilters } from '../types';
 
@@ -10,6 +11,13 @@ interface SearchBarProps {
 }
 
 export default function SearchBar({ filters, setFilters, onSearch }: SearchBarProps) {
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    navigate('/search');
+    onSearch();
+  };
+
   return (
     <div className="max-w-4xl mx-auto px-4 w-full">
       <div className="flex flex-col md:flex-row gap-3 bg-white/10 backdrop-blur-lg p-3 rounded-xl border border-neon-green/20 relative overflow-hidden w-full">
@@ -46,7 +54,7 @@ export default function SearchBar({ filters, setFilters, onSearch }: SearchBarPr
           borderRadius="0.5rem"
           containerClassName="w-full md:w-[120px] h-12"
           className="bg-neon-green hover:bg-neon-green/90 text-white/90 h-full px-4"
-          onClick={onSearch}
+          onClick={handleSearch}
         >
           <div className="flex items-center">
             <Search className="h-5 w-5 mr-2" />

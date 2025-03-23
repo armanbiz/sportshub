@@ -25,3 +25,24 @@ export interface Review {
   rating: number;
   location: string;
 }
+
+export interface Article {
+  id: string;
+  title: string;
+  slug: string;
+  content: string;
+  excerpt?: string;
+  published: boolean;
+  featured_image?: string;
+  author_id: string;
+  created_at: string;
+  updated_at: string;
+  categories?: Category[];
+}
+
+export interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  created_at: string;
+}

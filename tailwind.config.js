@@ -5,6 +5,9 @@ export default {
     extend: {
       colors: {
         border: "hsl(var(--border))",
+        checkbox: {
+          green: "#064E41"
+        },
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
@@ -41,5 +44,7 @@ export default {
       }
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/forms')({
+    strategy: 'class',
+  })],
 };

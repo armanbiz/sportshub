@@ -92,19 +92,19 @@ export default function Header() {
       {isMenuOpen && (
         <div className="sm:hidden">
           <div className="pt-2 pb-3 space-y-1 bg-dark-card">
-            <Link to="/search" className="block pl-3 pr-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-dark" onClick={() => window.scrollTo(0, 0)}>
+            <Link to="/search" className="block pl-3 pr-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-dark" onClick={() => { setIsMenuOpen(false); window.scrollTo(0, 0); }}>
               Search
             </Link>
-            <Link to="/blog" className="block pl-3 pr-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-dark" onClick={() => window.scrollTo(0, 0)}>
+            <Link to="/blog" className="block pl-3 pr-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-dark" onClick={() => { setIsMenuOpen(false); window.scrollTo(0, 0); }}>
               Blog
             </Link>
-            <Link to="/about" className="block pl-3 pr-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-dark" onClick={() => window.scrollTo(0, 0)}>
+            <Link to="/about" className="block pl-3 pr-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-dark" onClick={() => { setIsMenuOpen(false); window.scrollTo(0, 0); }}>
               About Us
             </Link>
-            <Link to="/contact" className="block pl-3 pr-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-dark" onClick={() => window.scrollTo(0, 0)}>
+            <Link to="/contact" className="block pl-3 pr-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-dark" onClick={() => { setIsMenuOpen(false); window.scrollTo(0, 0); }}>
               Contact Us
             </Link>
-            <Link to="/faq" className="block pl-3 pr-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-dark" onClick={() => window.scrollTo(0, 0)}>
+            <Link to="/faq" className="block pl-3 pr-4 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-dark" onClick={() => { setIsMenuOpen(false); window.scrollTo(0, 0); }}>
               FAQ
             </Link>
             <div className="px-3 py-2">
