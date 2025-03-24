@@ -9,6 +9,9 @@ export interface Gym {
   openingHours: Record<string, string>;
   amenities: string[];
   neighborhood: string;
+  multisport: boolean;
+  facilityType: string;
+  classes: string[];
 }
 
 export interface SearchFilters {

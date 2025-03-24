@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Star, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import AnimatedSection from '@/components/AnimatedSection';
 import { Gym } from '@/types';
 import GymCard from '@/components/GymCard';
+import { getGyms } from '@/lib/gyms';
 
 interface SearchFilters {
   location: string;
@@ -20,35 +21,10 @@ const PRICE_RANGES = ['Under 700 Kč', '700-1200 Kč', '1200-2000 Kč', 'Over 20
 const AMENITIES = ['Sauna', 'Pool', 'Jacuzzi', 'Parking', 'Towels'];
 const CLASSES = ['HIIT', 'Zumba', 'Spin', 'Yoga', 'Pilates', 'Boxing', 'CrossFit'];
 
-// Temporary mock data
-const MOCK_GYMS: Gym[] = [
-  {
-    id: '1',
-    name: 'Form Factory Smíchov',
-    description: 'Modern gym with state-of-the-art equipment',
-    imageUrl: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop',
-    rating: 4.8,
-    address: 'Karla Engliše 3221/2, Prague 5',
-    priceRange: '700-1200 Kč/month',
-    openingHours: { Monday: '6:00-22:00' },
-    amenities: ['Parking', 'Sauna', 'Personal Training'],
-    neighborhood: 'Smíchov'
-  },
-  {
-    id: '2',
-    name: 'WorldClass Wenceslas Square',
-    description: 'Premium fitness center in the heart of Prague',
-    imageUrl: 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=80&w=1375&auto=format&fit=crop',
-    rating: 4.9,
-    address: 'Václavské nám. 846/1, Prague 1',
-    priceRange: '1200-2000 Kč/month',
-    openingHours: { Monday: '6:00-23:00' },
-    amenities: ['Pool', 'Spa', 'Group Classes'],
-    neighborhood: 'Prague 1'
-  }
-];
-
 export default function SearchPage() {
+  const [gyms, setGyms] = useState<Gym[]>([]);
+  const [loading, setLoading] = useState(true);
+
   const [expandedSections, setExpandedSections] = useState({
     amenities: false,
     classes: false
@@ -75,6 +51,39 @@ export default function SearchPage() {
         ? prev[key].filter(item => item !== value)
         : [...prev[key], value]
     }));
+  };
+
+  const fetchGyms = async () => {
+    setLoading(true);
+    console.log('Applying filters:', filters);
+    const data = await getGyms({
+      location: filters.location,
+      facilityType: filters.facilityType.toLowerCase(),
+      priceRange: filters.priceRange,
+      multisport: filters.multisport,
+      rating: filters.rating,
+      amenities: filters.amenities,
+      classes: filters.classes
+    });
+    console.log('Transformed gym data:', data);
+    setGyms(data);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    const initialFetch = async () => {
+      setLoading(true);
+      const data = await getGyms();
+      console.log('Initial gym data:', data);
+      setGyms(data);
+      setLoading(false);
+    };
+    initialFetch();
+  }, []);
+
+  const handleApplyFilters = () => {
+    console.log('Applying filters:', filters);
+    fetchGyms();
   };
 
   return (
@@ -216,7 +225,7 @@ export default function SearchPage() {
 
               <Button
                 className="w-full bg-neon-green hover:bg-neon-green/90 text-white/90"
-                onClick={() => console.log('Applying filters:', filters)}
+                onClick={handleApplyFilters}
               >
                 <Search className="w-4 h-4 mr-2" />
                 Apply Filters
@@ -226,13 +235,19 @@ export default function SearchPage() {
 
           {/* Results Grid */}
           <div className="w-full lg:w-2/3">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {MOCK_GYMS.map((gym) => (
-                <AnimatedSection key={gym.id}>
-                  <GymCard gym={gym} />
-                </AnimatedSection>
-              ))}
-            </div>
+            {loading ? (
+              <div className="text-center text-gray-400">Loading gyms...</div>
+            ) : gyms.length === 0 ? (
+              <div className="text-center text-gray-400">No gyms found matching your criteria</div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {gyms.map((gym) => (
+                  <AnimatedSection key={gym.id}>
+                    <GymCard gym={gym} />
+                  </AnimatedSection>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

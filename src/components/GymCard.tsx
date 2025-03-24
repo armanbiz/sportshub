@@ -9,11 +9,22 @@ interface GymCardProps {
 export default function GymCard({ gym }: GymCardProps) {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
-      <img
-        src={gym.imageUrl}
-        alt={gym.name}
-        className="w-full h-48 object-cover"
-      />
+      <div className="relative">
+        <img
+          src={gym.imageUrl}
+          alt={gym.name}
+          className="w-full h-48 object-cover"
+        />
+        <div className="absolute top-4 right-4 group">
+          <button
+            className="w-8 h-8 rounded-full bg-[#064E41] text-white flex items-center justify-center hover:bg-[#064E41]/90 transition-all duration-300 group-hover:w-24 group-hover:rounded-lg"
+            onClick={() => console.log('Add to compare:', gym.id)}
+          >
+            <span className="text-xl leading-none flex items-center justify-center group-hover:hidden">+</span>
+            <span className="hidden group-hover:block text-sm font-medium">Compare</span>
+          </button>
+        </div>
+      </div>
       <div className="p-4">
         <div className="flex justify-between items-start">
           <h3 className="text-lg font-semibold text-gray-900">{gym.name}</h3>

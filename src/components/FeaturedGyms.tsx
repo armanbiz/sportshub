@@ -1,37 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Star, MapPin } from 'lucide-react';
 import { Button as MovingButton } from './ui/moving-border';
 import AnimatedSection from './AnimatedSection';
 import { Gym } from '@/types';
-
-const FEATURED_GYMS: Gym[] = [
-  {
-    id: '1',
-    name: 'Form Factory Smíchov',
-    description: 'Modern gym with state-of-the-art equipment and group classes',
-    imageUrl: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop',
-    rating: 4.8,
-    address: 'Karla Engliše 3221/2, Prague 5',
-    priceRange: '€30-50/month',
-    openingHours: { Monday: '6:00-22:00' },
-    amenities: ['Parking', 'Sauna', 'Personal Training'],
-    neighborhood: 'Smíchov'
-  },
-  {
-    id: '2',
-    name: 'WorldClass Wenceslas Square',
-    description: 'Premium fitness center in the heart of Prague',
-    imageUrl: 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=80&w=1375&auto=format&fit=crop',
-    rating: 4.9,
-    address: 'Václavské nám. 846/1, Prague 1',
-    priceRange: '€50-80/month',
-    openingHours: { Monday: '6:00-23:00' },
-    amenities: ['Pool', 'Spa', 'Group Classes'],
-    neighborhood: 'Prague 1'
-  }
-];
+import { getGyms } from '@/lib/gyms';
 
 export default function FeaturedGyms() {
+  const [gyms, setGyms] = useState<Gym[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchFeaturedGyms = async () => {
+      const data = await getGyms({ rating: 4.5 });
+      setGyms(data.slice(0, 2));
+      setLoading(false);
+    };
+    fetchFeaturedGyms();
+  }, []);
+
   return (
     <section className="py-24 bg-dark-lighter relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-16">
@@ -45,7 +31,9 @@ export default function FeaturedGyms() {
         </AnimatedSection>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-          {FEATURED_GYMS.map((gym) => (
+          {loading ? (
+            <div className="col-span-2 text-center text-gray-400">Loading featured gyms...</div>
+          ) : gyms.map((gym) => (
             <AnimatedSection
               key={gym.id}
               className="bg-dark rounded-2xl overflow-hidden border border-white/10 group hover:border-neon-green/40 transition-all duration-300"
