@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Star, Search } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import AnimatedSection from '@/components/AnimatedSection';
-import { Gym } from '@/types';
+import { Gym, FacilityType } from '@/types';
+import GymMap from '@/components/GymMap';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import GymCard from '@/components/GymCard';
-import { getGyms } from '@/lib/gyms';
+import { PRICE_RANGES, AMENITIES, CLASSES } from '@/lib/constants';
+import { getGyms, getFacilityTypes } from '@/lib/gyms';
 
 interface SearchFilters {
   location: string;
@@ -16,14 +20,29 @@ interface SearchFilters {
   rating: number;
 }
 
-const FACILITY_TYPES = ['Gym', 'Yoga Studio', 'CrossFit Box', 'Swimming Pool'];
-const PRICE_RANGES = ['Under 700 Kč', '700-1200 Kč', '1200-2000 Kč', 'Over 2000 Kč'];
-const AMENITIES = ['Sauna', 'Pool', 'Jacuzzi', 'Parking', 'Towels'];
-const CLASSES = ['HIIT', 'Zumba', 'Spin', 'Yoga', 'Pilates', 'Boxing', 'CrossFit'];
-
 export default function SearchPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [gyms, setGyms] = useState<Gym[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedGyms, setSelectedGyms] = useState<Gym[]>(
+    location.state?.selectedGyms || []
+  );
+  const [showWarning, setShowWarning] = useState(false);
+  const [facilityTypes, setFacilityTypes] = useState<FacilityType[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const gymsPerPage = 8;
+  const [showFilters, setShowFilters] = useState(false);
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const [selectedGymId, setSelectedGymId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadFacilityTypes = async () => {
+      const types = await getFacilityTypes();
+      setFacilityTypes(types);
+    };
+    loadFacilityTypes();
+  }, []);
 
   const [expandedSections, setExpandedSections] = useState({
     amenities: false,
@@ -31,8 +50,8 @@ export default function SearchPage() {
   });
 
   const [filters, setFilters] = useState<SearchFilters>({
-    location: '',
-    facilityType: '',
+    location: urlSearchParams.get('location') || '',
+    facilityType: urlSearchParams.get('facilityType') || '',
     priceRange: '',
     multisport: false,
     amenities: [],
@@ -73,7 +92,11 @@ export default function SearchPage() {
   useEffect(() => {
     const initialFetch = async () => {
       setLoading(true);
-      const data = await getGyms();
+      // Apply URL parameters to initial fetch
+      const data = await getGyms({
+        location: filters.location,
+        facilityType: filters.facilityType.toLowerCase()
+      });
       console.log('Initial gym data:', data);
       setGyms(data);
       setLoading(false);
@@ -86,6 +109,45 @@ export default function SearchPage() {
     fetchGyms();
   };
 
+  const handleCompareToggle = (gym: Gym) => {
+    setSelectedGyms(prev => {
+      const isSelected = prev.some(g => g.id === gym.id);
+      
+      if (isSelected) {
+        return prev.filter(g => g.id !== gym.id);
+      }
+      
+      if (prev.length >= 3) {
+        setShowWarning(true);
+        setTimeout(() => setShowWarning(false), 3000);
+        return prev;
+      }
+      
+      return [...prev, gym];
+    });
+  };
+
+  const handleCompare = () => {
+    console.log('Comparing gyms:', selectedGyms);
+    navigate('/compare', { 
+      state: { 
+        gyms: selectedGyms,
+        fromSearch: true 
+      } 
+    });
+  };
+
+  // Get current gyms
+  const indexOfLastGym = currentPage * gymsPerPage;
+  const indexOfFirstGym = indexOfLastGym - gymsPerPage;
+  const currentGyms = gyms.slice(indexOfFirstGym, indexOfLastGym);
+  const totalPages = Math.ceil(gyms.length / gymsPerPage);
+
+  const paginate = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="pt-24 min-h-screen bg-dark">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -93,14 +155,35 @@ export default function SearchPage() {
           <h1 className="text-3xl font-bold text-white mb-4">
             Search Gyms in Prague
           </h1>
-          <p className="text-gray-400">
+          {showWarning && (
+            <div className="bg-red-500/10 border border-red-500/20 text-red-500 px-4 py-2 rounded-lg mb-4">
+              You cannot select more than 3 items to compare.
+            </div>
+          )}
+          <p className="text-gray-400 mb-4">
             Find the perfect gym that matches your preferences
           </p>
+          <Button
+            className="lg:hidden w-full bg-neon-green hover:bg-neon-green/90 text-white/90"
+            onClick={() => setShowFilters(!showFilters)}
+          >
+            {showFilters ? 'Hide Filters' : 'Show Filters'}
+          </Button>
         </AnimatedSection>
 
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filters Column */}
-          <div className="w-full lg:w-1/3">
+          <div className={`w-full lg:w-1/3 ${showFilters ? 'block' : 'hidden'} lg:block`}>
+            {selectedGyms.length >= 2 && (
+              <div className="mb-4">
+                <Button
+                  className="w-full bg-neon-green hover:bg-neon-green/90 text-white/90"
+                  onClick={handleCompare}
+                >
+                  Compare {selectedGyms.length} Gyms
+                </Button>
+              </div>
+            )}
             <div className="bg-dark-card rounded-xl p-6 border border-white/10 sticky top-24">
               <h2 className="text-xl font-semibold text-white mb-6">Filters</h2>
               
@@ -125,8 +208,10 @@ export default function SearchPage() {
                   onChange={(e) => handleFilterChange('facilityType', e.target.value)}
                 >
                   <option value="" style={{ color: 'black', backgroundColor: 'white' }}>All Types</option>
-                  {FACILITY_TYPES.map(type => (
-                    <option key={type} value={type} style={{ color: 'black', backgroundColor: 'white' }}>{type}</option>
+                  {facilityTypes.map(type => (
+                    <option key={type.value} value={type.value} style={{ color: 'black', backgroundColor: 'white' }}>
+                      {type.label.charAt(0).toUpperCase() + type.label.slice(1)}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -240,13 +325,107 @@ export default function SearchPage() {
             ) : gyms.length === 0 ? (
               <div className="text-center text-gray-400">No gyms found matching your criteria</div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {gyms.map((gym) => (
-                  <AnimatedSection key={gym.id}>
-                    <GymCard gym={gym} />
-                  </AnimatedSection>
-                ))}
-              </div>
+              <>
+                <AnimatedSection className="mb-8">
+                  <GymMap
+                    gyms={gyms}
+                    onGymSelect={(gym) => setSelectedGymId(gym.id)}
+                    onCompareToggle={handleCompareToggle}
+                    selectedGyms={selectedGyms}
+                  />
+                </AnimatedSection>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                  {currentGyms.map((gym) => (
+                    <AnimatedSection key={gym.id}>
+                      <GymCard
+                        gym={gym}
+                        onCompareToggle={handleCompareToggle}
+                        isSelected={selectedGyms.some(g => g.id === gym.id)}
+                        isHighlighted={gym.id === selectedGymId}
+                      />
+                    </AnimatedSection>
+                  ))}
+                </div>
+                
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div className="flex justify-center items-center space-x-4">
+                    <Button
+                      onClick={() => paginate(currentPage - 1)}
+                      disabled={currentPage === 1}
+                      className="text-black bg-white hover:bg-white/90 border-white/20"
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                    </Button>
+                    
+                    <div className="flex items-center space-x-2">
+                      {/* First page */}
+                      <Button
+                        onClick={() => paginate(1)}
+                        variant={currentPage === 1 ? "default" : "outline"}
+                        className={`w-10 h-10 ${
+                          currentPage === 1
+                           ? "!bg-[#064E41] hover:!bg-[#064E41]/90 !text-white"
+                            : "border-white/20"
+                        } text-black bg-white hover:bg-white/90`}
+                      >
+                        1
+                      </Button>
+
+                      {/* Left ellipsis */}
+                      {currentPage > 3 && <span className="text-white">...</span>}
+
+                      {/* Pages around current page */}
+                      {Array.from({ length: totalPages }, (_, i) => i + 1)
+                        .filter(number => {
+                          if (number === 1 || number === totalPages) return false;
+                          return Math.abs(currentPage - number) <= 1;
+                        })
+                        .map(number => (
+                          <Button
+                            key={number}
+                            onClick={() => paginate(number)}
+                            variant={currentPage === number ? "default" : "outline"}
+                            className={`w-10 h-10 ${
+                              currentPage === number
+                               ? "!bg-[#064E41] hover:!bg-[#064E41]/90 !text-white"
+                                : "border-white/20"
+                            } text-black bg-white hover:bg-white/90`}
+                          >
+                            {number}
+                          </Button>
+                        ))}
+
+                      {/* Right ellipsis */}
+                      {currentPage < totalPages - 2 && <span className="text-white">...</span>}
+
+                      {/* Last page */}
+                      {totalPages > 1 && (
+                        <Button
+                          onClick={() => paginate(totalPages)}
+                          variant={currentPage === totalPages ? "default" : "outline"}
+                          className={`w-10 h-10 ${
+                            currentPage === totalPages
+                             ? "!bg-[#064E41] hover:!bg-[#064E41]/90 !text-white"
+                              : "border-white/20"
+                          } text-black bg-white hover:bg-white/90`}
+                        >
+                          {totalPages}
+                        </Button>
+                      )}
+                    </div>
+                    
+                    <Button
+                      onClick={() => paginate(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                      className="text-black bg-white hover:bg-white/90 border-white/20"
+                    >
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>

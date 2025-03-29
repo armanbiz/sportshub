@@ -1,8 +1,9 @@
 import React from 'react';
 import { Search, MapPin, Filter } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Button as MovingButton, MovingBorder } from './ui/moving-border';
-import { SearchFilters } from '../types';
+import { SearchFilters, FacilityType } from '@/types';
+import { getFacilityTypes } from '@/lib/gyms';
 
 interface SearchBarProps {
   filters: SearchFilters;
@@ -12,6 +13,15 @@ interface SearchBarProps {
 
 export default function SearchBar({ filters, setFilters, onSearch }: SearchBarProps) {
   const navigate = useNavigate();
+  const [facilityTypes, setFacilityTypes] = React.useState<FacilityType[]>([]);
+
+  React.useEffect(() => {
+    const fetchTypes = async () => {
+      const types = await getFacilityTypes();
+      setFacilityTypes(types);
+    };
+    fetchTypes();
+  }, []);
 
   const handleSearch = () => {
     navigate('/search');
@@ -43,24 +53,25 @@ export default function SearchBar({ filters, setFilters, onSearch }: SearchBarPr
             value={filters.facilityType}
             onChange={(e) => setFilters({ ...filters, facilityType: e.target.value })}
           >
-            <option value="">All Facilities</option>
-            <option value="gym">Gym</option>
-            <option value="yoga">Yoga Studio</option>
-            <option value="pool">Swimming Pool</option>
-            <option value="crossfit">CrossFit Box</option>
+            <option value="" style={{ color: 'black' }}>All Facilities</option>
+            {facilityTypes.map(type => (
+              <option key={type.value} value={type.value} style={{ color: 'black' }}>{type.label}</option>
+            ))}
           </select>
         </div>
-        <MovingButton
-          borderRadius="0.5rem"
-          containerClassName="w-full md:w-[120px] h-12"
-          className="bg-neon-green hover:bg-neon-green/90 text-white/90 h-full px-4"
-          onClick={handleSearch}
-        >
-          <div className="flex items-center">
-            <Search className="h-5 w-5 mr-2" />
-            Search
-          </div>
-        </MovingButton>
+        <Link to={`/search?facilityType=${filters.facilityType}`}>
+          <MovingButton
+            borderRadius="0.5rem"
+            containerClassName="w-full md:w-[120px] h-12"
+            className="bg-neon-green hover:bg-neon-green/90 text-white/90 h-full px-4"
+            onClick={handleSearch}
+          >
+            <div className="flex items-center">
+              <Search className="h-5 w-5 mr-2" />
+              Search
+            </div>
+          </MovingButton>
+        </Link>
       </div>
     </div>
   );

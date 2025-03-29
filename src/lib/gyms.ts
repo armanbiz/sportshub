@@ -1,18 +1,24 @@
 import { supabase } from './supabase';
-import { Gym } from '@/types';
+import { Gym, FacilityType } from '@/types';
 
 interface GymData {
   id: string;
-  name: string;
-  description: string | null;
-  image_url: string | null;
-  rating: number | null;
-  address: string;
+  gym_name: string;
+  full_address: string;
+  google_rating: number | null;
+  reviews: number | null;
+  longitude: number | null;
+  latitude: number | null;
+  type: string | null;
   price_range: string | null;
+  logo_link: string | null;
+  photo_link: string | null;
+  website_link: string | null;
+  country_code: string | null;
   neighborhood: string | null;
-  multisport: boolean;
-  facility_type: string | null;
-  gym_hours: Array<{ day: string; open_time: string; close_time: string }>;
+  postal_code: string | null;
+  phone: string | null;
+  gym_hours: Array<{ day: string; hours: string }>;
   gym_amenities: Array<{ amenity: string }>;
   gym_classes: Array<{ class_name: string }>;
 }
@@ -33,11 +39,25 @@ export async function getGyms(filters?: {
     let query = supabase
       .from('gyms')
       .select(`
-        *,
-        gym_hours!inner (
-          day,
-          open_time,
-          close_time
+        id,
+        gym_name,
+        full_address,
+        google_rating,
+        reviews,
+        longitude,
+        latitude,
+        type,
+        price_range,
+        logo_link,
+        photo_link,
+        website_link,
+        country_code,
+        neighborhood,
+        postal_code,
+        phone,
+        gym_hours (
+          day, 
+          hours
         ),
         gym_amenities (
           amenity
@@ -50,19 +70,16 @@ export async function getGyms(filters?: {
     // Apply filters
     if (filters) {
       if (filters.location) {
-        query = query.or(`address.ilike.%${filters.location}%,neighborhood.ilike.%${filters.location}%`);
+        query = query.or(`full_address.ilike.%${filters.location}%,neighborhood.ilike.%${filters.location}%,postal_code.ilike.%${filters.location}%`);
       }
       if (filters.facilityType) {
-        query = query.eq('facility_type', filters.facilityType);
+        query = query.ilike('type', `%${filters.facilityType}%`);
       }
       if (filters.priceRange) {
         query = query.eq('price_range', filters.priceRange);
       }
-      if (filters.multisport) {
-        query = query.eq('multisport', true);
-      }
       if (filters.rating) {
-        query = query.gte('rating', filters.rating);
+        query = query.gte('google_rating', filters.rating);
       }
     }
 
@@ -101,21 +118,26 @@ export async function getGyms(filters?: {
     // Transform the filtered data
     return filteredGyms.map((gym: GymData): Gym => ({
       id: gym.id,
-      name: gym.name,
-      description: gym.description || 'No description available',
-      imageUrl: gym.image_url || 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop',
-      rating: gym.rating || 0,
-      address: gym.address,
+      name: gym.gym_name || 'Unknown Gym',
+      imageUrl: gym.photo_link || 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48',
+      logo: gym.logo_link || '',
+      latitude: gym.latitude,
+      longitude: gym.longitude,
+      rating: gym.google_rating || 0,
+      reviews: gym.reviews || 0,
+      address: gym.full_address || 'Address not available',
       priceRange: gym.price_range || 'Price not available',
       openingHours: gym.gym_hours?.reduce((acc: Record<string, string>, hour) => {
-        acc[hour.day] = `${hour.open_time.slice(0, 5)}-${hour.close_time.slice(0, 5)}`;
+        acc[hour.day] = hour.hours;
         return acc;
-      }, {}) || { 'Monday': '06:00-22:00' },
+      }, {}),
       amenities: gym.gym_amenities?.map(a => a.amenity) || [],
       neighborhood: gym.neighborhood || 'Location not specified',
-      multisport: gym.multisport || false,
-      facilityType: gym.facility_type || 'General Gym',
-      classes: gym.gym_classes?.map(c => c.class_name) || []
+      type: gym.type || 'General Gym',
+      classes: gym.gym_classes?.map(c => c.class_name) || [],
+      website: gym.website_link || '',
+      phone: gym.phone || '',
+      postalCode: gym.postal_code || 'Postal code not available'
     }));
   } catch (error) {
     console.error('Error in getGyms:', error);
@@ -123,6 +145,29 @@ export async function getGyms(filters?: {
       console.error('Error message:', error.message);
       console.error('Stack trace:', error.stack);
     }
+    return [];
+  }
+}
+
+export async function getFacilityTypes(): Promise<FacilityType[]> {
+  try {
+    const { data, error } = await supabase
+      .from('gyms')
+      .select('type')
+      .not('type', 'is', null)
+      .order('type');
+
+    if (error) throw error;
+
+    // Get unique types and remove nulls
+    const uniqueTypes = [...new Set(data.map(item => item.type))].filter(Boolean);
+    
+    return uniqueTypes.map(type => ({
+      value: type,
+      label: type.charAt(0).toUpperCase() + type.slice(1)
+    }));
+  } catch (error) {
+    console.error('Error fetching facility types:', error);
     return [];
   }
 }

@@ -9,6 +9,7 @@ import FaqPage from './pages/FaqPage';
 import BlogPage from './pages/BlogPage';
 import SearchPage from './pages/SearchPage';
 import BlogArticlePage from './pages/BlogArticlePage';
+import ComparisonPage from './pages/ComparisonPage';
 
 export default function App() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -41,6 +42,7 @@ export default function App() {
           <Route path="/faq" element={<FaqPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:slug" element={<BlogArticlePage />} />
+          <Route path="/compare" element={<ComparisonPage />} />
         </Routes>
       </main>
       <Footer />

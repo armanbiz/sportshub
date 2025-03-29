@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Star } from 'lucide-react';
 import AnimatedSection from './AnimatedSection';
-import { Review } from '@/types';
+import { Review, Gym } from '@/types';
+import { supabase } from '@/lib/supabase';
+import { useNavigate } from 'react-router-dom';
 
 const TESTIMONIALS: Review[] = [
   {
@@ -20,13 +22,39 @@ const TESTIMONIALS: Review[] = [
   }
 ];
 
-const STATS = [
-  { label: 'Gyms Listed', value: '500+' },
-  { label: 'Active Users', value: '10,000+' },
-  { label: 'Avg Rating', value: '4.9/5' }
-];
-
 export default function Testimonials() {
+  const navigate = useNavigate();
+  const [stats, setStats] = useState({
+    totalGyms: 0,
+    avgRating: 0,
+    totalReviews: 0
+  });
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      const { data, error } = await supabase
+        .from('gyms')
+        .select('google_rating, reviews');
+
+      if (error) {
+        console.error('Error fetching stats:', error);
+        return;
+      }
+
+      const totalGyms = data.length;
+      const totalReviews = data.reduce((sum, gym) => sum + (gym.reviews || 0), 0);
+      const avgRating = data.reduce((sum, gym) => sum + (gym.google_rating || 0), 0) / totalGyms;
+
+      setStats({
+        totalGyms,
+        avgRating: Number(avgRating.toFixed(1)),
+        totalReviews
+      });
+    };
+
+    fetchStats();
+  }, []);
+
   return (
     <section className="py-24 bg-dark-lighter relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -67,14 +95,24 @@ export default function Testimonials() {
             </h3>
             
             <div className="grid grid-cols-1 gap-8">
-              {STATS.map((stat) => (
-                <div key={stat.label} className="text-center">
-                  <div className="text-3xl sm:text-4xl font-bold text-neon-green mb-2">
-                    {stat.value}
-                  </div>
-                  <div className="text-gray-400 text-sm sm:text-base">{stat.label}</div>
+              <div className="text-center">
+                <div className="text-3xl sm:text-4xl font-bold text-neon-green mb-2">
+                  {stats.totalGyms > 999 ? `${Math.floor(stats.totalGyms/1000)}K+` : `${stats.totalGyms}+`}
                 </div>
-              ))}
+                <div className="text-gray-400 text-sm sm:text-base">Gyms Listed</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl sm:text-4xl font-bold text-neon-green mb-2">
+                  {stats.avgRating}/5
+                </div>
+                <div className="text-gray-400 text-sm sm:text-base">Average Rating</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl sm:text-4xl font-bold text-neon-green mb-2">
+                  {stats.totalReviews > 999 ? `${Math.floor(stats.totalReviews/1000)}K+` : `${stats.totalReviews}+`}
+                </div>
+                <div className="text-gray-400 text-sm sm:text-base">Total Reviews</div>
+              </div>
             </div>
           </AnimatedSection>
         </div>
