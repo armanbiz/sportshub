@@ -53,7 +53,7 @@ export default function LocalGyms() {
   return (
     <section className="py-24 bg-dark relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <AnimatedSection>
+        <AnimatedSection delay={0.1}>
           <h2 className="text-3xl sm:text-4xl font-bold text-center text-white mb-4">
             Find Gyms Near You
           </h2>
@@ -69,6 +69,7 @@ export default function LocalGyms() {
               key={index}
               onClick={() => window.scrollTo(0, 0)}
               className="block"
+              delay={0.1 * (index + 1)}
             >
               <AnimatedSection className="group relative overflow-hidden rounded-xl bg-dark-card border border-white/10 hover:border-neon-green/40 transition-all duration-300 p-4 sm:p-6 cursor-pointer">
                 <div className="flex items-center justify-between mb-2">

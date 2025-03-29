@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 
 export const MovingBorder = ({
   children,
-  duration = 2000,
+  duration = 1000,
   rx,
   ry,
   ...otherProps
@@ -57,12 +57,15 @@ export const MovingBorder = ({
         {...otherProps}
       >
         <path
-          d="M 0,0 L 100,0 L 100,100 L 0,100 Z"
+          d="M 0,0 C 0,0 100,0 100,0 C 100,0 100,100 100,100 C 100,100 0,100 0,100 C 0,100 0,0 0,0"
           fill="none"
           vectorEffect="non-scaling-stroke"
           rx={rx}
           ry={ry}
           ref={pathRef}
+          stroke="currentColor"
+          strokeOpacity="0.4"
+          strokeWidth="1"
         />
       </svg>
       <motion.div

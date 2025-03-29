@@ -30,12 +30,7 @@ export default function SearchBar({ filters, setFilters, onSearch }: SearchBarPr
 
   return (
     <div className="max-w-4xl mx-auto px-4 w-full">
-      <div className="flex flex-col md:flex-row gap-3 bg-white/10 backdrop-blur-lg p-3 rounded-xl border border-neon-green/20 relative overflow-hidden w-full">
-        <div className="absolute inset-0">
-          <MovingBorder duration={4000} rx="12px" ry="12px">
-            <div className="h-32 w-32 opacity-[0.8] bg-[radial-gradient(var(--tw-gradient-stops))] from-neon-green via-neon-green/30 to-transparent blur-md" />
-          </MovingBorder>
-        </div>
+      <div className="flex flex-col md:flex-row gap-3 bg-white/10 backdrop-blur-lg p-3 rounded-xl border border-neon-green/20 relative w-full">
         <div className="flex-1 relative">
           <MapPin className="absolute left-3 top-3 h-5 w-5 text-white/60" />
           <input

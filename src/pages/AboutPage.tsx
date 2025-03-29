@@ -4,6 +4,10 @@ import AnimatedSection from '@/components/AnimatedSection';
 import { Link } from 'react-router-dom';
 
 export default function AboutPage() {
+  const handleSearchClick = () => {
+    window.scrollTo(0, 0);
+  };
+
   return (
     <div className="pt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -68,7 +72,10 @@ export default function AboutPage() {
         <AnimatedSection className="text-center mb-16">
           <h2 className="text-3xl font-bold text-white mb-8">Ready to Find Your Gym?</h2>
           <Link to="/search">
-            <Button className="bg-neon-green hover:bg-neon-green/90 text-white/90 text-lg px-8 py-6">
+            <Button 
+              className="bg-neon-green hover:bg-neon-green/90 text-white/90 text-lg px-8 py-6"
+              onClick={handleSearchClick}
+            >
               Search Gyms Now
             </Button>
           </Link>

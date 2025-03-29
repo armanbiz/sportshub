@@ -21,7 +21,7 @@ export default function FeaturedGyms() {
   return (
     <section className="py-24 bg-dark-lighter relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-16">
-        <AnimatedSection>
+        <AnimatedSection delay={0.1}>
           <h2 className="text-3xl sm:text-4xl font-bold text-center text-white mb-4">
             Trending Gyms in Prague
           </h2>
@@ -36,6 +36,7 @@ export default function FeaturedGyms() {
           ) : gyms.map((gym) => (
             <AnimatedSection
               key={gym.id}
+              delay={0.2}
               className="bg-dark rounded-2xl overflow-hidden border border-white/10 group hover:border-neon-green/40 transition-all duration-300"
             >
               <div className="relative h-48 sm:h-64">

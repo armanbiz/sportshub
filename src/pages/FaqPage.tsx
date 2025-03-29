@@ -1,5 +1,6 @@
 import React from 'react';
 import AnimatedSection from '@/components/AnimatedSection';
+import { Link } from 'react-router-dom';
 
 const FAQ_ITEMS = [
   {
@@ -52,12 +53,12 @@ export default function FaqPage() {
           <p className="text-xl text-gray-300 mb-6">
             Still have questions? We're here to help!
           </p>
-          <a
-            href="/contact"
-            className="inline-block bg-neon-green hover:bg-neon-green/90 text-white/90 px-8 py-3 rounded-xl transition-colors"
-          >
+          <Link 
+            to="/contact" 
+            onClick={() => window.scrollTo(0, 0)} 
+            className="inline-block bg-neon-green hover:bg-neon-green/90 text-white/90 px-8 py-3 rounded-xl transition-colors">
             Contact Us
-          </a>
+          </Link>
         </AnimatedSection>
       </div>
     </div>

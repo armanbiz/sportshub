@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
-import AboutPage from './pages/AboutPage';
-import ContactPage from './pages/ContactPage';
-import FaqPage from './pages/FaqPage';
-import BlogPage from './pages/BlogPage';
-import SearchPage from './pages/SearchPage';
-import BlogArticlePage from './pages/BlogArticlePage';
-import ComparisonPage from './pages/ComparisonPage';
+
+// Lazy load routes
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
+const FaqPage = lazy(() => import('./pages/FaqPage'));
+const BlogPage = lazy(() => import('./pages/BlogPage'));
+const SearchPage = lazy(() => import('./pages/SearchPage'));
+const BlogArticlePage = lazy(() => import('./pages/BlogArticlePage'));
+const ComparisonPage = lazy(() => import('./pages/ComparisonPage'));
 
 export default function App() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -34,16 +36,22 @@ export default function App() {
       />
       <Header />
       <main className="relative">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/search" element={<SearchPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/faq" element={<FaqPage />} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/blog/:slug" element={<BlogArticlePage />} />
-          <Route path="/compare" element={<ComparisonPage />} />
-        </Routes>
+        <Suspense fallback={
+          <div className="min-h-screen flex items-center justify-center">
+            <div className="text-white/60">Loading...</div>
+          </div>
+        }>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/faq" element={<FaqPage />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/:slug" element={<BlogArticlePage />} />
+            <Route path="/compare" element={<ComparisonPage />} />
+          </Routes>
+        </Suspense>
       </main>
       <Footer />
     </div>
