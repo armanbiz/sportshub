@@ -36,6 +36,20 @@ export default function HeroSection() {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
+      <script type="application/ld+json">
+        {`${JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "SportsHub",
+          "url": "https://sportshub.cz",
+          "description": "Compare gyms, prices, and amenities in Prague. Book your perfect gym instantly.",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://sportshub.cz/search?q={q}",
+            "query-input": "required name=q"
+          }
+        })}`}
+      </script>
       <div className="absolute inset-0 overflow-hidden">
         {BACKGROUND_IMAGES.map((image, index) => (
           <div
@@ -57,13 +71,13 @@ export default function HeroSection() {
       <div className="relative max-w-7xl mx-auto text-center">
         <AnimatedSection>
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-white mb-6 px-4">
-            Find Your Perfect Gym in Prague
+            Find Your Perfect Gym in Prague Compare Prices & Amenities
           </h1>
         </AnimatedSection>
         
         <AnimatedSection>
           <p className="text-lg sm:text-2xl text-gray-300 max-w-3xl mx-auto mb-8 sm:mb-12 px-4">
-            Compare prices, ratings, and amenities at 100+ fitness centers near you.
+            Search gyms by neighborhood, price, or amenities. Book instantly!
           </p>
         </AnimatedSection>
         

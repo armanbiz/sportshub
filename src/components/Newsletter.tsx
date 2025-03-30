@@ -37,7 +37,7 @@ export default function Newsletter() {
               Get Weekly Updates on New Gyms & Exclusive Deals
             </h2>
             <p className="text-gray-300 mb-6 sm:mb-8 text-sm sm:text-base">
-              Subscribe to our newsletter and receive a free copy of our "Ultimate Guide to Prague Gyms 2024"
+              Subscribe to our newsletter and receive a free copy of our "Ultimate Guide to Prague Gyms 2025"
             </p>
             
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 sm:gap-4">

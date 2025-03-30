@@ -26,7 +26,7 @@ export default function HowItWorks() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimatedSection>
           <h2 className="text-4xl font-bold text-center text-white mb-16">
-            How It Works
+            How It Works: 3 Steps to Your Perfect Gym in Prague
           </h2>
         </AnimatedSection>
         
@@ -41,8 +41,34 @@ export default function HowItWorks() {
                 <div className="w-12 h-12 rounded-full bg-neon-green/10 flex items-center justify-center mb-4 group-hover:bg-neon-green/20 transition-colors">
                   <step.icon className="w-6 h-6 text-neon-green" />
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-2">{step.title}</h3>
+                <h3 className="text-xl font-semibold text-white mb-2">
+                  {index + 1}. {step.title} by Location, Price, or Amenity
+                </h3>
                 <p className="text-gray-400">{step.description}</p>
+                <script type="application/ld+json">
+                  {`${JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "HowTo",
+                    "name": "Find Your Perfect Gym in Prague",
+                    "step": [
+                      {
+                        "@type": "HowToStep",
+                        "name": "Search",
+                        "text": "Filter by location, budget, or amenities"
+                      },
+                      {
+                        "@type": "HowToStep",
+                        "name": "Compare",
+                        "text": "View ratings, photos, and real user reviews"
+                      },
+                      {
+                        "@type": "HowToStep",
+                        "name": "Book",
+                        "text": "Reserve your spot or claim a free trial"
+                      }
+                    ]
+                  })}`}
+                </script>
               </div>
             </AnimatedSection>
           ))}
