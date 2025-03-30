@@ -12,6 +12,7 @@ import { getGyms, getFacilityTypes } from '@/lib/gyms';
 
 interface SearchFilters {
   location: string;
+  gymName: string;
   facilityType: string;
   priceRange: string;
   multisport: boolean;
@@ -51,6 +52,7 @@ export default function SearchPage() {
 
   const [filters, setFilters] = useState<SearchFilters>({
     location: urlSearchParams.get('location') || '',
+    gymName: '',
     facilityType: urlSearchParams.get('facilityType') || '',
     priceRange: '',
     multisport: false,
@@ -76,6 +78,7 @@ export default function SearchPage() {
     setLoading(true);
     console.log('Applying filters:', filters);
     const data = await getGyms({
+      gymName: filters.gymName,
       location: filters.location,
       facilityType: filters.facilityType.toLowerCase(),
       priceRange: filters.priceRange,
@@ -186,6 +189,18 @@ export default function SearchPage() {
             )}
             <div className="bg-dark-card rounded-xl p-6 border border-white/10 sticky top-24">
               <h2 className="text-xl font-semibold text-white mb-6">Filters</h2>
+              
+              {/* Gym Name */}
+              <div className="mb-6">
+                <label className="block text-white mb-2">Name</label>
+                <input
+                  type="text"
+                  placeholder="Search by gym name"
+                  className="w-full px-4 py-2 bg-white/10 rounded-lg text-white placeholder-gray-400 border border-white/20 focus:outline-none focus:border-neon-green/40"
+                  value={filters.gymName}
+                  onChange={(e) => handleFilterChange('gymName', e.target.value)}
+                />
+              </div>
               
               {/* Location */}
               <div className="mb-6">

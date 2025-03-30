@@ -25,6 +25,7 @@ interface GymData {
 
 export async function getGyms(filters?: {
   location?: string;
+  gymName?: string;
   facilityType?: string;
   priceRange?: string;
   multisport?: boolean;
@@ -69,6 +70,9 @@ export async function getGyms(filters?: {
 
     // Apply filters
     if (filters) {
+      if (filters.gymName) {
+        query = query.ilike('gym_name', `%${filters.gymName}%`);
+      }
       if (filters.location) {
         query = query.or(`full_address.ilike.%${filters.location}%,neighborhood.ilike.%${filters.location}%,postal_code.ilike.%${filters.location}%`);
       }
