@@ -46,7 +46,7 @@
 
 /* Dark theme styles for the map */
 .map-dark {
-  background-color: #1B1B1B !important;
+  background-color: rgba(27, 27, 27, 0.9) !important;
 }
 
 .dark-popup .leaflet-popup-content-wrapper {
@@ -65,7 +65,7 @@
 }
 
 .leaflet-control-attribution {
-  background-color: rgba(27, 27, 27, 0.8) !important;
+  background-color: rgba(27, 27, 27, 0.7) !important;
   color: rgba(255, 255, 255, 0.6) !important;
 }
 

@@ -47,35 +47,15 @@ export default function Header() {
             <div className="relative">
               <MovingButton
                 borderRadius="0.5rem"
-                containerClassName="w-[120px] h-12 ml-6"
-                className="bg-neon-green hover:bg-neon-green/90 text-white/90 h-full px-4"
-                onClick={handleDropdownClick}
+                containerClassName="w-[120px] h-12 ml-6 border-0"
+                className="bg-neon-green hover:bg-neon-green/90 text-white/90 h-full px-4 border-0"
+                onClick={() => navigate('/coming-soon')}
               >
                 <div className="flex items-center">
                   <LogIn className="mr-2 h-4 w-4" />
                   Sign In
                 </div>
               </MovingButton>
-              {showDropdown && (
-                <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                  <div className="py-1">
-                    <a
-                      href="/login"
-                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      <LogIn className="mr-2 h-4 w-4" />
-                      Login
-                    </a>
-                    <a
-                      href="/register"
-                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      <UserPlus className="mr-2 h-4 w-4" />
-                      Create Account
-                    </a>
-                  </div>
-                </div>
-              )}
             </div>
           </div>
           <div className="sm:hidden">

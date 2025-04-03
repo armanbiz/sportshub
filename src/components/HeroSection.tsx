@@ -88,37 +88,6 @@ export default function HeroSection() {
             onSearch={handleSearch}
           />
         </AnimatedSection>
-        
-        <AnimatedSection className="mt-8 flex flex-wrap justify-center gap-3 px-4">
-          <Button
-            variant="outline"
-            className="bg-white/10 hover:bg-white/20 text-white border-white/20 text-sm sm:text-base w-full sm:w-auto mb-2 sm:mb-0"
-            onClick={() => setFilters({ ...filters, priceRange: 'budget' })}
-          >
-            Budget Friendly
-          </Button>
-          <Button
-            variant="outline"
-            className="bg-white/10 hover:bg-white/20 text-white border-white/20"
-            onClick={() => setFilters({ ...filters, facilityType: 'gym' })}
-          >
-            Gyms
-          </Button>
-          <Button
-            variant="outline"
-            className="bg-white/10 hover:bg-white/20 text-white border-white/20"
-            onClick={() => setFilters({ ...filters, facilityType: 'yoga' })}
-          >
-            Yoga Studios
-          </Button>
-          <Button
-            variant="outline"
-            className="bg-white/10 hover:bg-white/20 text-white border-white/20"
-            onClick={() => setFilters({ ...filters, distance: 2 })}
-          >
-            Near Me
-          </Button>
-        </AnimatedSection>
       </div>
     </div>
   );

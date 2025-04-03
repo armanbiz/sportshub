@@ -12,6 +12,7 @@ const BlogPage = lazy(() => import('./pages/BlogPage'));
 const SearchPage = lazy(() => import('./pages/SearchPage'));
 const BlogArticlePage = lazy(() => import('./pages/BlogArticlePage'));
 const ComparisonPage = lazy(() => import('./pages/ComparisonPage'));
+const ComingSoonPage = lazy(() => import('./pages/ComingSoon'));
 
 export default function App() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -50,6 +51,7 @@ export default function App() {
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:slug" element={<BlogArticlePage />} />
             <Route path="/compare" element={<ComparisonPage />} />
+            <Route path="/coming-soon" element={<ComingSoonPage />} />
           </Routes>
         </Suspense>
       </main>
